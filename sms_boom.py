@@ -115,8 +115,5 @@ def main(phone):
 
 if __name__ == '__main__':
     # 手机号
-    phone = '18563402200'
-    # phone = '15169171993'
-    # phone = '13863454314'
-    # sendSMS(APIS[-1], phone)
+    phone = 'xxxxxxxxxxx'
     main(phone)
